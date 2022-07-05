@@ -4,9 +4,6 @@ volumes:
   data-db:
 
 services:
-  redis:
-    image: redis:latest
-
   mysql:
     image: mysql:8
     ports:
@@ -40,19 +37,3 @@ services:
  
    
      
-
-  # To be updated later
-  # backend:
-  #   build:
-  #     context: ./Vizard_Api
-  #   restart: always
-  #   command: /bin/bash -c "
-  #     python3 ./Vizard_Api/manage.py makemigrations && \
-  #     python3 ./Vizard_Api/manage.py migrate && \
-  #     python3 ./Vizard_Api/manage.py runserver 0.0.0.0:8000"
-  #   volumes:
-  #     - .:/code
-  #   ports:
-  #     - 8000:8000
-  #     depends_on:
-  #       - mongodb
