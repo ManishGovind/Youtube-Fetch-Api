@@ -1,0 +1,58 @@
+version: "3.1"
+
+volumes:
+  data-db:
+
+services:
+  redis:
+    image: redis:latest
+
+  mysql:
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    env_file:
+      - ./FetchApi/.env     
+    volumes:
+      - /tmp/app/mysqld:/var/run/mysqld
+      - ./db:/var/lib/mysql
+
+  backend:
+    build:
+      context: ./FetchApi
+    restart: always
+    command: >
+      /bin/bash -c "
+        python3 ./FetchApi/manage.py makemigrations && 
+        python3 ./FetchApi/manage.py migrate && 
+        python3 ./FetchApi/manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+      - ./media:/code/FetchApi/media
+    ports:
+      - 8000:8000
+    links:
+      - mysql
+      - redis
+    depends_on:
+      - mysql
+     
+ 
+   
+     
+
+  # To be updated later
+  # backend:
+  #   build:
+  #     context: ./Vizard_Api
+  #   restart: always
+  #   command: /bin/bash -c "
+  #     python3 ./Vizard_Api/manage.py makemigrations && \
+  #     python3 ./Vizard_Api/manage.py migrate && \
+  #     python3 ./Vizard_Api/manage.py runserver 0.0.0.0:8000"
+  #   volumes:
+  #     - .:/code
+  #   ports:
+  #     - 8000:8000
+  #     depends_on:
+  #       - mongodb
