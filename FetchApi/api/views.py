@@ -1,16 +1,15 @@
 from rest_framework import generics
-from rest_framework.pagination import PageNumberPagination
-# from api.models import VideoModel
-# from api.serializers import VideoSerializer
+from api.models import YTVideo
+from api.serializers import YTVideoSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 
 
-class Pagination(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = 'page_size'
-    max_page_size = 100
 
 
 # Create your views here.
 class VideoList(generics.ListAPIView):
-    print("hello world")
+    queryset = YTVideo.objects.order_by("-published_at")
+    serializer_class = YTVideoSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['title', 'published_at']
+    
