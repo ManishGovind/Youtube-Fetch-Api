@@ -66,6 +66,7 @@ celerybeat.pid
 
 #docker-database container
 /data
+
 # # Environments
 # .env
 # .venv
@@ -74,4 +75,5 @@ celerybeat.pid
 # ENV/
 # env.bak/
 # venv.bak/
+/ytenv
 
