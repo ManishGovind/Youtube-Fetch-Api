@@ -4,6 +4,7 @@ volumes:
   data:
 
 services:
+
   mysqldb:
     image: mysql:8
     ports:
@@ -13,6 +14,8 @@ services:
     volumes:
       - ./data:/var/lib/mysql
 
+  redis:
+    image: redis:alpine    
   api:
     build:
       context: ./FetchApi  
@@ -29,7 +32,19 @@ services:
     links:
       - mysqldb
     depends_on:
+      - redis
       - mysqldb
+
+  celery:
+    build:
+      context: ./FetchApi
+    restart: always
+    command: celery -A FetchApi worker -l INFO
+    volumes:
+      - .:/code 
+    depends_on:
+      - mysqldb
+      - redis
 
 
 
