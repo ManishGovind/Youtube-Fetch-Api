@@ -46,7 +46,16 @@ services:
     depends_on:
       - mysqldb
       - redis
-  
+  celery-beat:
+    build:
+      context: ./FetchApi
+    restart: always
+    command: celery -A FetchApi beat -l INFO
+    volumes:
+      - ./FetchApi/:/usr/src/code/
+    depends_on:
+      - mysqldb
+      - redis
 
 
 
