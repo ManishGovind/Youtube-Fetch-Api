@@ -3,14 +3,14 @@ FROM python:3
 # Set environment variables
 ENV PYTHONUNBUFFERED 1
 
-WORKDIR /code
+WORKDIR /usr/src/code/
 
-ADD . /code
+ADD . /usr/src/code/
 
-COPY ./requirements.txt  /code/requirements.txt
+COPY ./requirements.txt  /usr/src/code/requirements.txt
 
 # Install dependencies.
-RUN pip3 install -r /code/requirements.txt
+RUN pip3 install -r /usr/src/code/requirements.txt
 
 
 

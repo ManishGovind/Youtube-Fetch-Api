@@ -16,18 +16,18 @@ services:
       - ./data:/var/lib/mysql
 
   redis:
-    image: redis:alpine    
+    image: redis:latest  
   api:
     build:
       context: ./FetchApi  
     restart: always
     command: >
       /bin/bash -c "
-        python3 ./FetchApi/manage.py makemigrations && 
-        python3 ./FetchApi/manage.py migrate && 
-        python3 ./FetchApi/manage.py runserver 0.0.0.0:8000"
+        python3 manage.py makemigrations && 
+        python3 manage.py migrate && 
+        python3 manage.py runserver 0.0.0.0:8000"
     volumes:
-      - .:/code
+      - ./FetchApi/:/usr/src/code/
     ports:
       - 8000:8000
     links:
@@ -42,10 +42,11 @@ services:
     restart: always
     command: celery -A FetchApi worker -l INFO
     volumes:
-      - .:/code 
+      - ./FetchApi/:/usr/src/code/
     depends_on:
       - mysqldb
       - redis
+  
 
 
 

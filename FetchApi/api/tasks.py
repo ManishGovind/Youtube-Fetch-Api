@@ -4,8 +4,8 @@ from celery import shared_task
 from celery.utils.log import get_task_logger
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-from models import YTVideo
-from utils import youtube_fetch
+from api.models import YTVideo
+from api.utils import youtube_fetch
 
 logger = get_task_logger(__name__)
 
