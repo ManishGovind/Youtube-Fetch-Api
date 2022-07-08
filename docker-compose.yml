@@ -9,8 +9,9 @@ services:
     image: mysql:8
     ports:
       - "3306:3306"
-    env_file:
-      - ./.env     
+    environment:
+      - MYSQL_DATABASE='Fampay'
+      - MYSQL_ROOT_PASSWORD='admin@123'    
     volumes:
       - ./data:/var/lib/mysql
 
