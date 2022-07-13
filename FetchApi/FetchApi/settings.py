@@ -85,14 +85,13 @@ REST_FRAMEWORK = {
 
 DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'HOST':  "mysqldb",  
-            'PORT': 3306,
-            'NAME': "Fampay",
-            'USER': "root",
-            'PASSWORD': "admin@123"
-            
-        }
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'Fampay',
+            'USER': 'user',
+            'PASSWORD': 'user1234',
+            'HOST': 'db',
+            'PORT': 5432,
+      }
     }
 
 CELERY_BROKER_URL = "redis://redis:6379"
@@ -104,7 +103,8 @@ APIKEYS_API_VERSION = "v2"
 
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
-SEARCH_QUERY = "Football"
+DEVELOPER_KEY = "AIzaSyCSdKQIjOXAFLkY3mHlGeJVwM0RSs00ymg"  
+SEARCH_QUERY = "Technology"
 MAX_RESULTS = 25    
 
 

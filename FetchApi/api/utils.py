@@ -5,12 +5,13 @@ from googleapiclient.errors import HttpError
 from FetchApi.settings import (
     YOUTUBE_API_SERVICE_NAME,
     YOUTUBE_API_VERSION,
+    DEVELOPER_KEY, 
 )
 
 
 def youtube_fetch(query, check_int, max_results):
     
-    DEVELOPER_KEY = "AIzaSyCSdKQIjOXAFLkY3mHlGeJVwM0RSs00ymg"
+    
     try:
         youtube = build(
             YOUTUBE_API_SERVICE_NAME,
@@ -19,7 +20,7 @@ def youtube_fetch(query, check_int, max_results):
         )
 
         target_ts = (
-            datetime.now() - timedelta(minutes=check_int)
+            datetime.now() - timedelta(days=60)
         ).isoformat() + "Z"
 
         search_response = (
@@ -39,4 +40,5 @@ def youtube_fetch(query, check_int, max_results):
         print("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
         if e.resp.status == 403:
             print(f"Request Failed with API_KEY")
+            # get_next_key()
         return dict()

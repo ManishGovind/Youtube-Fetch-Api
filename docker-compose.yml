@@ -5,15 +5,15 @@ volumes:
 
 services:
 
-  mysqldb:
-    image: mysql:8
-    ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_DATABASE='Fampay'
-      - MYSQL_ROOT_PASSWORD='admin@123'    
+  db:
+    image: postgres
     volumes:
-      - ./data:/var/lib/mysql
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=Fampay
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=user1234
+
 
   redis:
     image: redis:latest  
@@ -23,18 +23,16 @@ services:
     restart: always
     command: >
       /bin/bash -c "
-        python3 manage.py makemigrations && 
+        python3 manage.py makemigrations &&  
         python3 manage.py migrate && 
         python3 manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./FetchApi/:/usr/src/code/
     ports:
       - 8000:8000
-    links:
-      - mysqldb
     depends_on:
       - redis
-      - mysqldb
+      - db
 
   celery:
     build:
@@ -44,8 +42,9 @@ services:
     volumes:
       - ./FetchApi/:/usr/src/code/
     depends_on:
-      - mysqldb
+      - db
       - redis
+      - api
   celery-beat:
     build:
       context: ./FetchApi
@@ -54,8 +53,9 @@ services:
     volumes:
       - ./FetchApi/:/usr/src/code/
     depends_on:
-      - mysqldb
+      - db
       - redis
+      - api
 
 
 
