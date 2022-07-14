@@ -4,8 +4,10 @@ from celery import shared_task
 from celery.utils.log import get_task_logger
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-from api.models import YTVideo
+from api.models import YTVideo 
 from api.utils import youtube_fetch
+from FetchApi.settings import SEARCH_QUERY , MAX_RESULTS
+
 
 logger = get_task_logger(__name__)
 
@@ -13,9 +15,9 @@ logger = get_task_logger(__name__)
 @shared_task(bind=True)
 def save_videos(*args):
     """
-    We fetch the latest data from youtube API and add it to your DB.
+    fetch the latest data from youtube API and add it to DB.
     """
-    response = youtube_fetch("football", 1, 25)
+    response = youtube_fetch(SEARCH_QUERY, MAX_RESULTS)
     logger.info("Successfully Fetched Videos")
 
     for item in response.get("items", []):
@@ -38,6 +40,9 @@ def save_videos(*args):
 
         )
     logger.info("Videos uploaded in to db successfully")
+
+
+    
 
 
 

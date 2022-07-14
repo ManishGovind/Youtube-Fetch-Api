@@ -22,7 +22,7 @@ app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
     
-    'fetchs videos every 30 seconds': {
+    'fetchs videos every one minute': {
         "task": "api.tasks.save_videos",
         "schedule": crontab(minute="*/1"),
     },
